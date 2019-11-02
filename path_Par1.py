@@ -238,116 +238,124 @@ pin_List_Write=[]
 
 
 with open('2d_Pinlist0.txt', "r") as file0 , open('2d_Output_Sort.txt','r') as file1:
-    for i in range(3):
+    line=file0.readline()
+    for i in range(20):
+        path_List_Write.clear()
+        pin_List_Write.clear()
+        pinlist.clear()
+        pathdic.clear()
+        index=0
         line=file1.readline()
-    line=line.split()
-    #print(line)
-    length=int(line[-1])
-    #print(length)
-    child=[]
+        line=line.split()
+        #print(line)
+        length=int(line[-1])
+        #print(length)
+        child=[]    
 
-    for i in range(length):
-        num_firstly=[]
-        child=[]
-        #print(i)
-        num=int(line[index+3])   
-        if(num!=0):     
-            for j in range(num):
-                child.append(int(line[2*j+4+index]))
-                child.append(int(line[2*j+5+index]))
-            pathdic[(int(line[index+1]),int(line[index+2]))]=[num]+child
-            if(i==0):
-                num_firstly.append(num)
-                pathList_firstly=[int(line[index+1]),int(line[index+2])]+num_firstly+child
-            index+=2*(num-1)+5
-        else:
-            pathdic[(int(line[index+1]),int(line[index+2]))]=[num]+[0,0]
-            index+=5
+        for i in range(length):
+            num_firstly=[]
+            child=[]
+            #print(i)
+            num=int(line[index+3])   
+            if(num!=0):     
+                for j in range(num):
+                    child.append(int(line[2*j+4+index]))
+                    child.append(int(line[2*j+5+index]))
+                pathdic[(int(line[index+1]),int(line[index+2]))]=[num]+child
+                if(i==0):
+                    num_firstly.append(num)
+                    pathList_firstly=[int(line[index+1]),int(line[index+2])]+num_firstly+child
+                index+=2*(num-1)+5
+            else:
+                pathdic[(int(line[index+1]),int(line[index+2]))]=[num]+[0,0]
+                index+=5
         #print(child)
         #print(index)
 
         
-    for i in range(4):
+    
         line=file0.readline().split()
-    num=int(line[1])
-    for i in range(num):
-        pinlist.append((int(line[2*i+2]),int(line[2*i+3])))
+        num=int(line[1])
+        for i in range(num):
+            pinlist.append((int(line[2*i+2]),int(line[2*i+3])))
        
 
 #print(pathdic)
 
-list0=[]
-list1=[]
-# pathList=[(77,245,1,77,244),(77,244,1,77,243),(77,243,1,77,242),(77,242,1,77,241),(77,241,0,0,0)]
-# pathdic={}
-# pathdic[(77,245)]=(1,77,244)
-# # print(pathdic)
-# pathdic[(77,244)]=(1,77,243)
-# pathdic[(77,243)]=(1,77,242)
-# pathdic[(77,242)]=(1,77,241)
-# pathdic[(77,241)]=(0,0,0)
-
-
-#注意    遇到原始引脚一定换行
-cur=(pathList_firstly[0],pathList_firstly[1])
-cur_index=0
-
-if(pathList_firstly[2]>1):
-    #temp=[]
-    #temp.append((cur))
-    for i in range(int(pathList_firstly[2])):
+        list0=[]
+        list1=[]
+        # pathList=[(77,245,1,77,244),(77,244,1,77,243),(77,243,1,77,242),(77,242,1,77,241),(77,241,0,0,0)]
+        # pathdic={}
+        # pathdic[(77,245)]=(1,77,244)
+        # # print(pathdic)
+        # pathdic[(77,244)]=(1,77,243)
+        # pathdic[(77,243)]=(1,77,242)
+        # pathdic[(77,242)]=(1,77,241)
+        # pathdic[(77,241)]=(0,0,0)     
         
-        list0.append((0,cur[0],cur[1],pathList_firstly[2*i+3],pathList_firstly[2*i+4]))
-    #list0.append(temp)
-        #list0.append(pathList_firstly[2*i+4])
-    yes1(cur)
-else:
-    first_Flag='0'
-    pin_List_Write.append(cur)
-    #print(cur)
-    path_List_Write.append(cur)
-    cur=(pathdic[cur][1],pathdic[cur][2])
 
-    while(1):
-        path_List_Write.append(cur)
-        if(pathdic[cur][0]==0): #终止点一定是 pin？  需要验证
-            last_Flag='0'
-            pin_List_Write.append(cur)
-            pin_List_Write.append(first_Flag+last_Flag) 
-            pin_List_Write.append('\n')
-            path_List_Write.append('\n')            
-            #print(0)
-            break
-        if(pathdic[cur][0]>1):  #有可能也是 原始Pin，需分类，标记出pin
-            if(cur in pinlist):
-                last_Flag='0'
-                for i in range(pathdic[cur][0]):                       
-                    list0.append((0,cur[0],cur[1],pathdic[cur][2*i+1],pathdic[cur][2*i+2]))            #进入函数
-            else:
-                last_Flag='1'
-                for i in range(pathdic[cur][0]):                        
-                    list0.append((1,cur[0],cur[1],pathdic[cur][2*i+1],pathdic[cur][2*i+2]))            #进入函数      
-                #list0.append(pathdic[cur][2*i+2])
-            pin_List_Write.append(cur)
-            pin_List_Write.append(first_Flag+last_Flag) 
-            pin_List_Write.append('\n')
-            path_List_Write.append('\n')
+        #注意    遇到原始引脚一定换行
+        cur=(pathList_firstly[0],pathList_firstly[1])
+        cur_index=0     
+
+        if(pathList_firstly[2]>1):
+            #temp=[]
+            #temp.append((cur))
+            for i in range(int(pathList_firstly[2])):
+                
+                list0.append((0,cur[0],cur[1],pathList_firstly[2*i+3],pathList_firstly[2*i+4]))
+            #list0.append(temp)
+                #list0.append(pathList_firstly[2*i+4])
             yes1(cur)
-            break  
-        if(cur  in pinlist and pathdic[cur][0]==1):
-            pin_List_Write.append(cur)
-            pin_List_Write.append(first_Flag+last_Flag) 
-            pin_List_Write.append('\n')
-            path_List_Write.append('\n')
-            pin_List_Write.append(cur)
-            path_List_Write.append(cur)
-            cur=(pathdic[cur][1],pathdic[cur][2])
-            first_Flag='0'
         else:
-            cur=(pathdic[cur][1],pathdic[cur][2])    
+            first_Flag='0'
+            pin_List_Write.append(cur)
+            #print(cur)
+            path_List_Write.append(cur)
+            cur=(pathdic[cur][1],pathdic[cur][2])       
 
-print(path_List_Write)
-print(pin_List_Write)
+            while(1):
+                path_List_Write.append(cur)
+                if(pathdic[cur][0]==0): #终止点一定是 pin？  需要验证
+                    last_Flag='0'
+                    pin_List_Write.append(cur)
+                    pin_List_Write.append(first_Flag+last_Flag) 
+                    pin_List_Write.append('\n')
+                    path_List_Write.append('\n')            
+                    #print(0)
+                    break
+                if(pathdic[cur][0]>1):  #有可能也是 原始Pin，需分类，标记出pin
+                    if(cur in pinlist):
+                        last_Flag='0'
+                        for i in range(pathdic[cur][0]):                       
+                            list0.append((0,cur[0],cur[1],pathdic[cur][2*i+1],pathdic[cur][2*i+2]))            #进入函数
+                    else:
+                        last_Flag='1'
+                        for i in range(pathdic[cur][0]):                        
+                            list0.append((1,cur[0],cur[1],pathdic[cur][2*i+1],pathdic[cur][2*i+2]))            #进入函数      
+                        #list0.append(pathdic[cur][2*i+2])
+                    pin_List_Write.append(cur)
+                    pin_List_Write.append(first_Flag+last_Flag) 
+                    pin_List_Write.append('\n')
+                    path_List_Write.append('\n')
+                    yes1(cur)
+                    break  
+                if(cur  in pinlist and pathdic[cur][0]==1):
+                    last_Flag='0'
+                    pin_List_Write.append(cur)
+                    pin_List_Write.append(first_Flag+last_Flag) 
+                    pin_List_Write.append('\n')
+                    path_List_Write.append('\n')
+                    pin_List_Write.append(cur)
+                    path_List_Write.append(cur)
+                    cur=(pathdic[cur][1],pathdic[cur][2])
+                    first_Flag='0'
+                else:
+                    cur=(pathdic[cur][1],pathdic[cur][2])    
+
+        print(path_List_Write)
+        print(pin_List_Write)
+        print('lueluelue')
 
 
 
