@@ -121,45 +121,84 @@ def yes1(cur):
     global pathdic
     for x in list0:
         #print(cur)  问题：丢失了转弯节点
-        cur=(x[0],x[1])
+        pin_List_Write.append((x[1],x[2]))
+        path_List_Write.append((x[1],x[2]))
+        if(x[0]==0):
+            first_Flag='0'
+        else:
+            first_Flag='1'
+
+        cur=(x[3],x[4])
         while(1):            
             print(cur)
+            path_List_Write.append(cur)
             if(pathdic[cur][0]>1 ):
-                print('\n')
-                for i in range(pathdic[cur][0]):
-                    
-                    list1.append((pathdic[cur][2*i+1],pathdic[cur][2*i+2]))            #进入函数
+                if(cur in pinlist):
+                    last_Flag='0'
+                    for i in range(pathdic[cur][0]):                       
+                        list1.append((0,cur[0],cur[1],pathdic[cur][2*i+1],pathdic[cur][2*i+2]))            #进入函数
+                else:
+                    last_Flag='1'
+                    for i in range(pathdic[cur][0]):                        
+                        list1.append((1,cur[0],cur[1],pathdic[cur][2*i+1],pathdic[cur][2*i+2]))            #进入函数                    
+                pin_List_Write.append('\n')
+                path_List_Write.append('\n')
+
                     
                 break          #when stop while(1)?
             if(pathdic[cur][0]==0):
-                print('\n')
+                last_Flag='0'
+                pin_List_Write.append('\n')
+                path_List_Write.append('\n')
                 break
             if(cur  in pinlist and pathdic[cur][0]==1):
-                print('\n')
-                print(cur)
+                last_Flag='0'
+                pin_List_Write.append('\n')
+                path_List_Write.append('\n')
+                pin_List_Write.append(cur)
+                path_List_Write.append(cur)
                 cur=(pathdic[cur][1],pathdic[cur][2])
             else:
                 cur=(pathdic[cur][1],pathdic[cur][2])
     list0=[]
     if(len(list1)!=0):
         for x in list1:
-            
-            cur=(x[0],x[1])
+            pin_List_Write.append((x[1],x[2]))
+            path_List_Write.append((x[1],x[2]))
+            if(x[0]==0):
+                first_Flag='0'
+            else:
+                first_Flag='1'
+            cur=(x[3],x[4])
             while(1):
+                path_List_Write.append(cur)
                 print(cur)
                 if(pathdic[cur][0]>1):
-                    print('\n')
-                    for i in range(pathdic[cur][0]):
-
-                        list0.append((pathdic[cur][2*i+1],pathdic[cur][2*i+2]))            #进入函数
+                    pin_List_Write.append('\n')
+                    path_List_Write.append('\n')
+                    if(cur in pinlist):
+                        last_Flag='0'
+                        for i in range(pathdic[cur][0]):
+                            
+                            list1.append((0,cur[0],cur[1],pathdic[cur][2*i+1],pathdic[cur][2*i+2]))            #进入函数
+                    else:
+                        last_Flag='1'
+                        for i in range(pathdic[cur][0]):
+                            
+                            list1.append((1,cur[0],cur[1],pathdic[cur][2*i+1],pathdic[cur][2*i+2]))            #进入函数  
                         #list0.append(pathdic[cur][2*i+1])
                     break  
                 if(pathdic[cur][0]==0):
-                    print('\n')
+                    last_Flag='0'
+                    pin_List_Write.append('\n')
+                    path_List_Write.append('\n')
                     break                    
                 if(cur  in pinlist):
-                    print('\n')
-                    print(cur)
+                    last_Flag='0'
+                    pin_List_Write.append('\n')
+                    path_List_Write.append('\n')
+                    pin_List_Write.append(cur)
+                    path_List_Write.append(cur)
                     cur=(pathdic[cur][1],pathdic[cur][2])
                 else:
                     cur=(pathdic[cur][1],pathdic[cur][2])
@@ -180,19 +219,23 @@ pinlist=[]
 index=0
 pathList_firstly=[]
 num_firstly=[]
+path_List_Write=[]
+pin_List_Write=[]
+
+
 with open('2d_Pinlist0.txt', "r") as file0 , open('2d_Output_Sort.txt','r') as file1:
-    for i in range(5):
+    for i in range(3):
         line=file1.readline()
     line=line.split()
-    print(line)
+    #print(line)
     length=int(line[-1])
-    print(length)
+    #print(length)
     child=[]
 
     for i in range(length):
         num_firstly=[]
         child=[]
-        print(i)
+        #print(i)
         num=int(line[index+3])   
         if(num!=0):     
             for j in range(num):
@@ -234,36 +277,48 @@ list1=[]
 #注意    遇到原始引脚一定换行
 cur=(pathList_firstly[0],pathList_firstly[1])
 cur_index=0
-print(cur)
+
 if(pathList_firstly[2]>1):
+    #temp=[]
+    #temp.append((cur))
     for i in range(int(pathList_firstly[2])):
         
-        list0.append((pathList_firstly[2*i+3],pathList_firstly[2*i+4]))
+        list0.append((0,cur[0],cur[1],pathList_firstly[2*i+3],pathList_firstly[2*i+4]))
+    #list0.append(temp)
         #list0.append(pathList_firstly[2*i+4])
     yes1(cur)
 else:
-    
+    pin_List_Write.append(cur)
+    print(cur)
+    path_List_Write.append(cur)
     cur=(pathdic[cur][1],pathdic[cur][2])
 
     while(1):
-        print(cur)
-        if(pathdic[cur][0]==0):
+        path_List_Write.append(cur)
+        if(pathdic[cur][0]==0): #终止点一定是 pin？  需要验证
+            print(0)
             break
-        if(pathdic[cur][0]>1):  #有可能也是 原始Pin
-            print('\n')
-            for i in range(pathdic[cur][0]):
-                list0.append((pathdic[cur][2*i+1],pathdic[cur][2*i+2]))        #进入函数
+        if(pathdic[cur][0]>1):  #有可能也是 原始Pin，需分类，标记出pin
+            if(cur in pinlist):
+                last_Flag='0'
+                for i in range(pathdic[cur][0]):                       
+                    list0.append((0,cur[0],cur[1],pathdic[cur][2*i+1],pathdic[cur][2*i+2]))            #进入函数
+            else:
+                last_Flag='1'
+                for i in range(pathdic[cur][0]):                        
+                    list0.append((1,cur[0],cur[1],pathdic[cur][2*i+1],pathdic[cur][2*i+2]))            #进入函数      
                 #list0.append(pathdic[cur][2*i+2])
+            pin_List_Write.append('\n')
             yes1(cur)
             break  
         if(cur  in pinlist and pathdic[cur][0]==1):
-            print('\n')
-            print(cur)
+            pin_List_Write.append('\n')
+            pin_List_Write.append(cur)
             cur=(pathdic[cur][1],pathdic[cur][2])
         else:
             cur=(pathdic[cur][1],pathdic[cur][2])    
 
-
+print(path_List_Write)
 
 
 
