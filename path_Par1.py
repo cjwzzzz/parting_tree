@@ -140,7 +140,8 @@ def yes1(cur):
                 else:
                     last_Flag='1'
                     for i in range(pathdic[cur][0]):                        
-                        list1.append((1,cur[0],cur[1],pathdic[cur][2*i+1],pathdic[cur][2*i+2]))            #进入函数                    
+                        list1.append((1,cur[0],cur[1],pathdic[cur][2*i+1],pathdic[cur][2*i+2]))            #进入函数  
+                pin_List_Write.append(cur)                  
                 pin_List_Write.append('\n')
                 path_List_Write.append('\n')
 
@@ -148,11 +149,13 @@ def yes1(cur):
                 break          #when stop while(1)?
             if(pathdic[cur][0]==0):
                 last_Flag='0'
+                pin_List_Write.append(cur) 
                 pin_List_Write.append('\n')
                 path_List_Write.append('\n')
                 break
             if(cur  in pinlist and pathdic[cur][0]==1):
                 last_Flag='0'
+                pin_List_Write.append(cur)
                 pin_List_Write.append('\n')
                 path_List_Write.append('\n')
                 pin_List_Write.append(cur)
@@ -174,6 +177,7 @@ def yes1(cur):
                 path_List_Write.append(cur)
                 print(cur)
                 if(pathdic[cur][0]>1):
+                    pin_List_Write.append(cur)
                     pin_List_Write.append('\n')
                     path_List_Write.append('\n')
                     if(cur in pinlist):
@@ -190,11 +194,13 @@ def yes1(cur):
                     break  
                 if(pathdic[cur][0]==0):
                     last_Flag='0'
+                    pin_List_Write.append(cur)
                     pin_List_Write.append('\n')
                     path_List_Write.append('\n')
                     break                    
                 if(cur  in pinlist):
                     last_Flag='0'
+                    pin_List_Write.append(cur)
                     pin_List_Write.append('\n')
                     path_List_Write.append('\n')
                     pin_List_Write.append(cur)
@@ -296,6 +302,10 @@ else:
     while(1):
         path_List_Write.append(cur)
         if(pathdic[cur][0]==0): #终止点一定是 pin？  需要验证
+            last_Flag='0'
+            pin_List_Write.append(cur)
+            pin_List_Write.append('\n')
+            path_List_Write.append('\n')            
             print(0)
             break
         if(pathdic[cur][0]>1):  #有可能也是 原始Pin，需分类，标记出pin
@@ -308,17 +318,23 @@ else:
                 for i in range(pathdic[cur][0]):                        
                     list0.append((1,cur[0],cur[1],pathdic[cur][2*i+1],pathdic[cur][2*i+2]))            #进入函数      
                 #list0.append(pathdic[cur][2*i+2])
+            pin_List_Write.append(cur)
             pin_List_Write.append('\n')
+            path_List_Write.append('\n')
             yes1(cur)
             break  
         if(cur  in pinlist and pathdic[cur][0]==1):
-            pin_List_Write.append('\n')
             pin_List_Write.append(cur)
+            pin_List_Write.append('\n')
+            path_List_Write.append('\n')
+            pin_List_Write.append(cur)
+            path_List_Write.append(cur)
             cur=(pathdic[cur][1],pathdic[cur][2])
         else:
             cur=(pathdic[cur][1],pathdic[cur][2])    
 
 print(path_List_Write)
+print(pin_List_Write)
 
 
 
