@@ -161,8 +161,8 @@ if __name__=='__main__':
     
 
     with open('2d_Pinlist0.txt', "r") as file0 , open('2d_Output_Sort.txt','r') as file1:
-        line=file0.readline()
-        for i in range(20):
+        net_length=int(file0.readline().split()[0])
+        for i in range(net_length):
             path_List_Write=[]
             pin_List_Write=[]
             pinlist.clear()
@@ -286,11 +286,13 @@ if __name__=='__main__':
                         cur=(pathdic[cur][1],pathdic[cur][2])
                         first_Flag='0'
                     else:
-                        cur=(pathdic[cur][1],pathdic[cur][2])       
+                        cur=(pathdic[cur][1],pathdic[cur][2])      
+            pin_List_Over.append([])     #代表将处理下一个线网
+            path_List_Over.append([])    #代表将处理下一个线网
 
-    print(path_List_Over)
-    print('lueluelue')
-    print(pin_List_Over)
+    # print(path_List_Over)
+    # print('lueluelue')
+    # print(pin_List_Over)
     
 
 
