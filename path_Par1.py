@@ -1,3 +1,4 @@
+
 class Net:
     def __init__(self, netId, subnet_id,pin1_X, pin1_Y,pin1_Layer, pin2_X, pin2_Y,pin2_Layer,flag):
         self.netId = netId
@@ -49,10 +50,10 @@ def yes1(cur):
                     
                 break          #when stop while(1)?
             if(pathdic[cur][0]==0):
-                if(cur in pinlist):
-                    last_Flag='0'
-                else:
-                    last_Flag='1'
+                # if(cur in pinlist):
+                last_Flag='0'
+                # else:
+                #     last_Flag='1'
                 pin_List_Write.append(cur) 
                 pin_List_Write.append(first_Flag+last_Flag) 
 
@@ -93,14 +94,7 @@ def yes1(cur):
                 path_List_Write.append(cur)
                 #print(cur)
                 if(pathdic[cur][0]>1):
-                    pin_List_Write.append(cur)
-                    pin_List_Write.append(first_Flag+last_Flag) 
-                    pin_List_Over.append(pin_List_Write)    
-                    pin_List_Write=[]      
-                    #pin_List_Write.append('\n')
-                    path_List_Over.append(path_List_Write)
-                    #path_List_Write.append('\n')
-                    path_List_Write=[]
+
                     if(cur in pinlist):
                         last_Flag='0'
                         for i in range(pathdic[cur][0]):
@@ -111,7 +105,17 @@ def yes1(cur):
                         for i in range(pathdic[cur][0]):
                             
                             list1.append((1,cur[0],cur[1],pathdic[cur][2*i+1],pathdic[cur][2*i+2]))            #进入函数  
+
+
                         #list0.append(pathdic[cur][2*i+1])
+                    pin_List_Write.append(cur)
+                    pin_List_Write.append(first_Flag+last_Flag) 
+                    pin_List_Over.append(pin_List_Write)    
+                    pin_List_Write=[]      
+                    #pin_List_Write.append('\n')
+                    path_List_Over.append(path_List_Write)
+                    #path_List_Write.append('\n')
+                    path_List_Write=[]                     
                     break  
                 if(pathdic[cur][0]==0):
                     last_Flag='0'
@@ -162,7 +166,10 @@ path_List_Over=[]
 pin_List_Over=[]
 with open('2d_Pinlist.txt', "r") as file0 , open('2d_output1.txt','r') as file1:
     net_length=int(file0.readline().split()[0])
-    for iii in range(net_length):
+    for i in range(146127):
+        line=file0.readline()
+        line=file1.readline()        
+    for iii in range(1):
         path_List_Write=[]
         pin_List_Write=[]
         pinlist.clear()
@@ -242,10 +249,10 @@ with open('2d_Pinlist.txt', "r") as file0 , open('2d_output1.txt','r') as file1:
             while(1):
                 path_List_Write.append(cur)
                 if(pathdic[cur][0]==0): #终止点一定是 pin？  需要验证
-                    if(cur in pinlist):
-                        last_Flag='0'
-                    else:
-                        last_Flag='1'
+                    # if(cur in pinlist):
+                    last_Flag='0'
+                    # else:
+                    #     last_Flag='1'
                     pin_List_Write.append(cur)
                     pin_List_Write.append(first_Flag+last_Flag) 
                     pin_List_Over.append(pin_List_Write)    
@@ -300,9 +307,9 @@ with open('2d_Pinlist.txt', "r") as file0 , open('2d_output1.txt','r') as file1:
     #print('lueluelue')
     #for i in range(20):
     #    print(path_List_Over[i])
-    # print(path_List_Over)
-    # print('lueluelue')
-    # print(pin_List_Over)
+    print(path_List_Over)
+    print('lueluelue')
+    print(pin_List_Over)
     
 
 
