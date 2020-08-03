@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 if __name__=='__main__':
     initial_tree_x=[]
     initial_tree_y=[]
-    with open('2d_Output_Sort.txt','r') as file1:
-        for i in range(2):
+    with open('2d_output1.txt','r') as file1:
+        for i in range(114642):
             line=file1.readline()
         index=0
         line=file1.readline()
