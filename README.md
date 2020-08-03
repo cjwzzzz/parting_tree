@@ -1,6 +1,6 @@
 # parting_tree
 ## description: 
-          given a tree, generate partition results like this figure.
+          given an acyclic tree, generate partition results like this figure.
 ![image](https://github.com/cjwzzzz/parting_tree/blob/master/images/1.jpg)
 
 ## input: 
